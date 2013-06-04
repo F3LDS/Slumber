@@ -16,13 +16,14 @@ public class GameClass implements ApplicationListener {
 	private SpriteBatch batch;
 	private Texture texture;
 	private Sprite sprite;
+	float charx = 100f;
+	float chary = 100f;
 	
 	@Override
 	public void create() {		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
-		float charx;
-		float chary;
+
 		
 		camera = new OrthographicCamera(w, h);
 		batch = new SpriteBatch();
@@ -33,7 +34,7 @@ public class GameClass implements ApplicationListener {
 		
 		sprite = new Sprite(region);
 		sprite.setSize(128f, 128f);
-		sprite.setPosition(100, 100);
+		sprite.setPosition(charx, chary);
 	}
 
 	@Override
@@ -54,16 +55,16 @@ public class GameClass implements ApplicationListener {
 		
 		
 		
-		//   if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) 
-		//	      charx -= Gdx.graphics.getDeltaTime();
-		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) 
-		//	      charx += Gdx.graphics.getDeltaTime();
-		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) 
-		//	      chary += Gdx.graphics.getDeltaTime();
-		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) 
-		//	      chary -= Gdx.graphics.getDeltaTime();
+		   if(Gdx.input.isKeyPressed(Keys.A)) 
+			      charx -= Gdx.graphics.getDeltaTime() * 150;
+			   if(Gdx.input.isKeyPressed(Keys.D)) 
+			      charx += Gdx.graphics.getDeltaTime() * 150;
+			   if(Gdx.input.isKeyPressed(Keys.W)) 
+			      chary += Gdx.graphics.getDeltaTime() * 150;
+			   if(Gdx.input.isKeyPressed(Keys.S)) 
+			      chary -= Gdx.graphics.getDeltaTime() * 150;
 			   
-			   
+		sprite.setPosition(charx, chary);  
 			   
 	}
 
