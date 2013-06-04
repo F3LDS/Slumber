@@ -2,6 +2,7 @@ package com.bluowl.slumber;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,19 +21,19 @@ public class GameClass implements ApplicationListener {
 	public void create() {		
 		float w = Gdx.graphics.getWidth();
 		float h = Gdx.graphics.getHeight();
+		float charx;
+		float chary;
 		
-		camera = new OrthographicCamera(1, h/w);
+		camera = new OrthographicCamera(w, h);
 		batch = new SpriteBatch();
 		
-		texture = new Texture(Gdx.files.internal("dude.png"));
-		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		texture = new Texture(Gdx.files.internal("dude.png"));;
 		
-		TextureRegion region = new TextureRegion(texture, 0, 0, 512, 275);
+		TextureRegion region = new TextureRegion(texture, 0, 0, 128, 128);
 		
 		sprite = new Sprite(region);
-		sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-		sprite.setOrigin(sprite.getWidth()/2, sprite.getHeight()/2);
-		sprite.setPosition(-sprite.getWidth()/2, -sprite.getHeight()/2);
+		sprite.setSize(128f, 128f);
+		sprite.setPosition(100, 100);
 	}
 
 	@Override
@@ -50,6 +51,20 @@ public class GameClass implements ApplicationListener {
 		batch.begin();
 		sprite.draw(batch);
 		batch.end();
+		
+		
+		
+		//   if(Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) 
+		//	      charx -= Gdx.graphics.getDeltaTime();
+		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) 
+		//	      charx += Gdx.graphics.getDeltaTime();
+		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_UP)) 
+		//	      chary += Gdx.graphics.getDeltaTime();
+		//	   if(Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) 
+		//	      chary -= Gdx.graphics.getDeltaTime();
+			   
+			   
+			   
 	}
 
 	@Override
