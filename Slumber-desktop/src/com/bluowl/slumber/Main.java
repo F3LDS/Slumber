@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Slumber";
-		cfg.useGL20 = false;
+		cfg.useGL20 = true;
 		cfg.width = 880;
 		cfg.height = 620;
 		
