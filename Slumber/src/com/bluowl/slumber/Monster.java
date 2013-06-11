@@ -33,7 +33,7 @@ public void create() {
 	skeleton = spriteSheet.createSprites("Stand");
 	
 	for(int i=0; i<skeleton.size; i++){
-		skeleton.get(i).setSize(33.0f, 33.0f);
+		skeleton.get(i).setSize(100.0f, 100.0f);
 		skeleton.get(i).setPosition(-1.5f, -1.5f); // optional: center the sprite to screen
 	}
 	
@@ -79,6 +79,13 @@ public void draw() {
 	spriteBatch.begin();
 	skeleton.get(currentFrame).draw(spriteBatch);
 	spriteBatch.end();
+	
+	for(int i=0; i<skeleton.size; i++){
+		skeleton.get(i).setSize(100.0f, 100.0f);
+		skeleton.get(i).setPosition(charx, chary); // optional: center the sprite to screen
+	}
+	
+	//skeleton.setPosition(-1.5f, -1.5f);
 	
 }
 
