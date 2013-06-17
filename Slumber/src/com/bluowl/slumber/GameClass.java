@@ -2,21 +2,16 @@ package com.bluowl.slumber;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class GameClass implements ApplicationListener {
 	private OrthographicCamera camera;
 	Texture texture;
 	Monster monster;
 	SpriteBatch spriteBatch;
+	int pos_status = 0;
 
 	
 	@Override
@@ -37,15 +32,33 @@ public class GameClass implements ApplicationListener {
 
 	@Override
 	public void render() {		
-		//Gdx.gl.glClearColor(1, 1, 1, 1);
-		//Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+		if(pos_status==0){
+			monster.draw();
+			System.out.println("Static");
+		}
 		
+		if(pos_status==1){
+			monster.draw2();
+			System.out.println("left");
+		}
 		
+		if(pos_status==2){
+			monster.draw3();
+			System.out.println("up");
+		}
 		
+		if(pos_status==3){
+			monster.draw4();
+			System.out.println("right");
+		}
+		if(pos_status==4){
+			monster.draw5();
+			System.out.println("down");
+		}
 		
-	    monster.draw();
+	    
 			  
-	    monster.update();
+	   pos_status = monster.update();
 		  
 			   
 	}

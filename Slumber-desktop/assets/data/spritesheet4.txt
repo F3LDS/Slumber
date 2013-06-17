@@ -1,32 +1,32 @@
-packed.png
+spritesheet4.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Stand3
+Stand
   rotate: false
   xy: 2, 260
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: -1
-Stand1
+  index: 0
+Stand
   rotate: false
   xy: 260, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: -1
-Stand4
+  index: 1
+Stand
   rotate: false
   xy: 2, 2
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: -1
-Stand2
+  index: 2
+Stand
   rotate: false
   xy: 2, 518
   size: 256, 256
   orig: 256, 256
   offset: 0, 0
-  index: -1
+  index: 3

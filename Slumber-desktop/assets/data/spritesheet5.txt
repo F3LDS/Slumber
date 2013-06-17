@@ -1,4 +1,4 @@
-spritesheet.png
+spritesheet5.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
