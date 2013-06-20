@@ -11,7 +11,7 @@ public class GameClass implements ApplicationListener {
 	Texture texture;
 	Monster monster;
 	SpriteBatch spriteBatch;
-	int pos_status = 0;
+	int pos_status = 0;//because we want him to be standing initially
 
 	
 	@Override
@@ -22,7 +22,7 @@ public class GameClass implements ApplicationListener {
 
 		camera = new OrthographicCamera(w, h);
 		monster = new Monster(camera);
-		monster.create();
+		monster.create();//creates all the sprites
 	}
 
 	@Override
@@ -31,7 +31,9 @@ public class GameClass implements ApplicationListener {
 	}
 
 	@Override
-	public void render() {		
+	//this function continuously draws as you can imagine
+	public void render() {	
+		//first time going through it will be zero because we set it that
 		if(pos_status==0){
 			monster.draw();
 			System.out.println("Static");
@@ -57,9 +59,10 @@ public class GameClass implements ApplicationListener {
 		}
 		
 	    
-			  
+		//draws the direction variable and sets it to this pos_status 
 	   pos_status = monster.update();
-		  
+		  //after looping through again it'll change if a key is pressed
+	   //you'll be able to tell by the system print out in the console
 			   
 	}
 

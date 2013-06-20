@@ -38,17 +38,20 @@ public class Monster {
 public void create() {
 	
 	spriteBatch = new SpriteBatch();
-	spriteSheet = new TextureAtlas("assets/data/spritesheet.txt");
-	spriteSheet2 = new TextureAtlas("assets/data/spritesheet2.txt");
-	spriteSheet3 = new TextureAtlas("assets/data/spritesheet3.txt");
-	spriteSheet4 = new TextureAtlas("assets/data/spritesheet4.txt");
-	spriteSheet5 = new TextureAtlas("assets/data/spritesheet5.txt");
+	//imports spriteSheets
+	spriteSheet = new TextureAtlas("assets/data/spritesheet.txt");//standing anim
+	spriteSheet2 = new TextureAtlas("assets/data/spritesheet2.txt");//left anim
+	spriteSheet3 = new TextureAtlas("assets/data/spritesheet3.txt");//right anim
+	spriteSheet4 = new TextureAtlas("assets/data/spritesheet4.txt");//up anim
+	spriteSheet5 = new TextureAtlas("assets/data/spritesheet5.txt");//down anim
+	
+	//Creates Arrays from spriteSheetes
 	skeleton = spriteSheet.createSprites("Stand");
 	left = spriteSheet2.createSprites("Stand");
 	right = spriteSheet3.createSprites("Stand");
 	up = spriteSheet4.createSprites("Stand");
 	down = spriteSheet5.createSprites("Stand");
-	
+	//Gives all static sizes and positions
 	for(int i=0; i<skeleton.size; i++){
 		skeleton.get(i).setSize(100.0f, 100.0f);
 		skeleton.get(i).setPosition(charx, chary); // optional: center the sprite to screen
@@ -78,8 +81,10 @@ public Monster(OrthographicCamera c) {
 	
 }
 public int update() {
-	direction = 0;
+	direction = 0;//direction indicates which key is being pressed
 	
+	
+	//receives input and creates keypress status for animations
 	   if(Gdx.input.isKeyPressed(Keys.A)) {
 		      charx -= Gdx.graphics.getDeltaTime() * 150;
 		      direction =1;}
@@ -94,30 +99,30 @@ public int update() {
 		      direction = 4;}
 	return direction;
 }
-
+//different draw functions for different animations
 public void draw() {
-
+//gets the time
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
 	
-	
+//decides which frame to choose	
 	while(animationElapsed > frameLength){
 		animationElapsed -= frameLength;
 		currentFrame = (currentFrame == skeleton.size - 1) ? 0 : ++currentFrame;
 	}
-
+//updates  size and position from original
 		for(int i=0; i<skeleton.size; i++){
 		skeleton.get(i).setSize(100.0f, 100.0f);
 		skeleton.get(i).setPosition(charx, chary);
 	}
-		
+		//some open opengl stuff
 	GL20 gl = Gdx.graphics.getGL20();
 	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	
+	//camera
 	spriteBatch.setProjectionMatrix(camera.combined);
-	spriteBatch.begin();
-	skeleton.get(currentFrame).draw(spriteBatch);
-	spriteBatch.end();
+	spriteBatch.begin();//starts
+	skeleton.get(currentFrame).draw(spriteBatch);//draws it
+	spriteBatch.end();//closes/ends
 	
 
 	
