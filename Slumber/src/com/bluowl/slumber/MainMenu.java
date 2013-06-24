@@ -2,11 +2,15 @@ package com.bluowl.slumber;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class MainMenu implements Screen {
 
 	 GameClass game; // Note it's "MyGame" not "Game"
-	 
+	 private SpriteBatch spriteBatch;
+     private Texture splsh;
 
      // constructor to keep a reference to the main Game class
       public MainMenu(GameClass game){
@@ -21,6 +25,10 @@ public class MainMenu implements Screen {
 	@Override
       public void render(float delta) {
               // update and draw stuff
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        spriteBatch.begin();
+        spriteBatch.draw(splsh, 0, 0);
+        spriteBatch.end();
            if (Gdx.input.justTouched()) // use your own criterion here
                game.setScreen(game.slumber);
            	
@@ -35,7 +43,8 @@ public class MainMenu implements Screen {
 
      @Override
       public void show() {
-    	 
+         spriteBatch = new SpriteBatch();
+         splsh = new Texture(Gdx.files.internal("assets/data/spritesheet5.png"));
            // called when this screen is set as the screen with game.setScreen();
       }
 

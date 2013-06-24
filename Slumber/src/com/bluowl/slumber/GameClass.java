@@ -20,10 +20,5 @@ public class GameClass extends Game {
             setScreen(mainmenu);     
             slumber.create();
     }
-   /*public void render(){
-	   System.out.print("render");
-	   GL20 gl = Gdx.graphics.getGL20();
-		gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-	   //super.render();
-   }*/
+
 }
