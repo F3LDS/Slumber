@@ -2,7 +2,6 @@ package com.bluowl.slumber;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -32,11 +31,12 @@ public class Monster {
 	float charx = 100;
 	float chary = 100;
 	int direction;
+    GameClass game;
 	
-	
+
 	
 public void create() {
-	
+	System.out.print("monster.create\n");
 	spriteBatch = new SpriteBatch();
 	//imports spriteSheets
 	spriteSheet = new TextureAtlas("assets/data/spritesheet.txt");//standing anim
@@ -81,6 +81,7 @@ public Monster(OrthographicCamera c) {
 	
 }
 public int update() {
+	System.out.print("monster.update");
 	direction = 0;//direction indicates which key is being pressed
 	
 	
@@ -101,6 +102,7 @@ public int update() {
 }
 //different draw functions for different animations
 public void draw() {
+	System.out.print("monster.draw");
 //gets the time
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
@@ -116,8 +118,7 @@ public void draw() {
 		skeleton.get(i).setPosition(charx, chary);
 	}
 		//some open opengl stuff
-	GL20 gl = Gdx.graphics.getGL20();
-	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
 	//camera
 	spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();//starts
@@ -129,6 +130,8 @@ public void draw() {
 
 }
 public void draw2() {
+	
+	System.out.print("monster.draw2");
 
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
@@ -143,8 +146,7 @@ public void draw2() {
 		left.get(i).setSize(100.0f, 100.0f);
 		left.get(i).setPosition(charx, chary); // optional: center the sprite to screen
 	}
-	GL20 gl = Gdx.graphics.getGL20();
-	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
 	
 	spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();
@@ -171,8 +173,7 @@ public void draw3() {
 		up.get(i).setSize(100.0f, 100.0f);
 		up.get(i).setPosition(charx, chary); // optional: center the sprite to screen
 	}
-	GL20 gl = Gdx.graphics.getGL20();
-	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
 	
 	spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();
@@ -199,8 +200,7 @@ public void draw4() {
 		down.get(i).setSize(100.0f, 100.0f);
 		down.get(i).setPosition(charx, chary); // optional: center the sprite to screen
 	}
-	GL20 gl = Gdx.graphics.getGL20();
-	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
 	
 	spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();
@@ -227,8 +227,7 @@ public void draw5() {
 		right.get(i).setSize(100.0f, 100.0f);
 		right.get(i).setPosition(charx, chary); // optional: center the sprite to screen
 	}
-	GL20 gl = Gdx.graphics.getGL20();
-	gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+	
 	
 	spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();

@@ -1,6 +1,8 @@
 package com.bluowl.slumber;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +38,10 @@ public class Slumber implements Screen{
 		}
 
 		public void render(float delta) {	
+			GL20 gl = Gdx.graphics.getGL20();
+			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			
+			System.out.print("slumber.render\n");
 			//first time going through it will be zero because we set it that
 			if(pos_status==0){
 				monster.draw();
@@ -64,6 +70,9 @@ public class Slumber implements Screen{
 		    
 			//draws the direction variable and sets it to this pos_status 
 		   pos_status = monster.update();
+		   if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+			   game.setScreen(game.mainmenu);
+		   }
 			  //after looping through again it'll change if a key is pressed
 		   //you'll be able to tell by the system print out in the console
 				   
@@ -88,4 +97,6 @@ public class Slumber implements Screen{
 		@Override
 		public void resume() {
 		}
+
+	
 	}

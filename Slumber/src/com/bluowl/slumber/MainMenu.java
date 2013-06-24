@@ -10,14 +10,21 @@ public class MainMenu implements Screen {
 
      // constructor to keep a reference to the main Game class
       public MainMenu(GameClass game){
+    	  	  
               this.game = game;
       }
+      public void create() {
+    	  System.out.println("mainmenucreate\n");
+      }
       
-      @Override
+  
+	@Override
       public void render(float delta) {
               // update and draw stuff
            if (Gdx.input.justTouched()) // use your own criterion here
                game.setScreen(game.slumber);
+           	
+           
       }
 
 
@@ -28,6 +35,7 @@ public class MainMenu implements Screen {
 
      @Override
       public void show() {
+    	 
            // called when this screen is set as the screen with game.setScreen();
       }
 
