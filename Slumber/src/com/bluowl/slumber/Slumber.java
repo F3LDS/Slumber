@@ -2,6 +2,7 @@ package com.bluowl.slumber;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -80,10 +81,13 @@ public class Slumber implements Screen{
 	    
 		@Override
 	    public void show() {
+			Sounds.music.play();
 	             // called when this screen is set as the screen with game.setScreen();
 	    }
 		@Override
 	    public void hide() {
+			Sounds.music.pause();
+
 	             // called when current screen changes from this to a different screen
 	    }
 		@Override
