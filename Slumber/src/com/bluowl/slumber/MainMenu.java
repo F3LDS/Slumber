@@ -37,6 +37,7 @@ public class MainMenu implements Screen {
       }
 
 
+
      @Override
       public void resize(int width, int height) {
       }
@@ -45,7 +46,7 @@ public class MainMenu implements Screen {
      @Override
       public void show() {
          spriteBatch = new SpriteBatch();
-         splsh = new Texture(Gdx.files.internal("assets/data/spritesheet5.png"));
+         splsh = new Texture(Gdx.files.internal("assets/data/menu.png"));
            // called when this screen is set as the screen with game.setScreen();
 			
       }
