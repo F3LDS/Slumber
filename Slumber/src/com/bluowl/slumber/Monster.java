@@ -11,31 +11,31 @@ import com.badlogic.gdx.utils.Array;
 
 public class Monster {
 
-	SpriteBatch spriteBatch;
+	static SpriteBatch spriteBatch;
 	Texture texture;
 	OrthographicCamera camera;
 	Sprite sprite;
-	private TextureAtlas spriteSheet;
-	private TextureAtlas spriteSheet2;
-	private TextureAtlas spriteSheet3;
-	private TextureAtlas spriteSheet4;
-	private TextureAtlas spriteSheet5;
-	private Array<Sprite> skeleton;
-	private Array<Sprite> left;
-	private Array<Sprite> right;
-	private Array<Sprite> up;
-	private Array<Sprite> down;
-	private int	currentFrame = 0;
-	private final float	frameLength = 0.17f;	//in seconds, how long a frame last
-	private float animationElapsed = 0.0f;
-	float charx = 100;
-	float chary = 100;
+	private static TextureAtlas spriteSheet;
+	private static  TextureAtlas spriteSheet2;
+	private static TextureAtlas spriteSheet3;
+	private static TextureAtlas spriteSheet4;
+	private static  TextureAtlas spriteSheet5;
+	private static Array<Sprite> skeleton;
+	private static Array<Sprite> left;
+	private static  Array<Sprite> right;
+	private static  Array<Sprite> up;
+	private static Array<Sprite> down;
+	private static int	currentFrame = 0;
+	private static final float	frameLength = 0.17f;	//in seconds, how long a frame last
+	private static float animationElapsed = 0.0f;
+	static float charx = 100;
+	static float chary = 100;
 	int direction;
     GameClass game;
 	
 
 	
-public void create() {
+public static void  create() {
 	System.out.print("monster.create\n");
 	spriteBatch = new SpriteBatch();
 	//imports spriteSheets
@@ -101,8 +101,8 @@ public int update() {
 	return direction;
 }
 //different draw functions for different animations
-public void draw() {
-	System.out.print("monster.draw");
+public static void draw(int x, int y) {
+	System.out.print("monster.draw\n");
 //gets the time
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
@@ -115,12 +115,12 @@ public void draw() {
 //updates  size and position from original
 		for(int i=0; i<skeleton.size; i++){
 		skeleton.get(i).setSize(100.0f, 100.0f);
-		skeleton.get(i).setPosition(charx, chary);
+		skeleton.get(i).setPosition(x, y);
 	}
 		//some open opengl stuff
 	
 	//camera
-	spriteBatch.setProjectionMatrix(camera.combined);
+	//spriteBatch.setProjectionMatrix(camera.combined);
 	spriteBatch.begin();//starts
 	skeleton.get(currentFrame).draw(spriteBatch);//draws it
 	spriteBatch.end();//closes/ends

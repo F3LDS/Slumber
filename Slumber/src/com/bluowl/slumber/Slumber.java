@@ -1,25 +1,23 @@
 package com.bluowl.slumber;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.ApplicationListener;    
-import com.badlogic.gdx.physics.box2d.Fixture;  
 
 
 
@@ -28,7 +26,7 @@ public class Slumber implements Screen{
 		private OrthographicCamera camera;
 		//Texture texture = Gdx.files.internal("assets/data/spritesheet.png");
 		Monster monster;
-		SpriteBatch spriteBatch;
+		
 		int pos_status = 0;//because we want him to be standing initially
 		private World world;
 		private Box2DDebugRenderer debugRenderer;
@@ -39,17 +37,17 @@ public class Slumber implements Screen{
 		private BodyDef playerDef;
 		private Body playerBody;
 		
+		
 
 		GameClass game;
 		
 		public void create() {	
-			spriteBatch = new SpriteBatch();
 			float w = Gdx.graphics.getWidth();
 			float h = Gdx.graphics.getHeight();
 
 			camera = new OrthographicCamera(w, h);
-			//monster = new Monster(camera);
-			//monster.create();//creates all the sprites
+			
+			monster.create();
 
 		}
 
@@ -58,31 +56,52 @@ public class Slumber implements Screen{
 			
 		}
 		
+
 		public Slumber(GameClass game) {
 			this.game = game;
 		}
+
 
 		public void render(float delta) {	
 			GL20 gl = Gdx.graphics.getGL20();
 			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		    camera.update();
-		    if(Gdx.input.isKeyPressed(Keys.D)){
-		    	playerBody.applyForceToCenter(10,0);
-		    }
-		    if(Gdx.input.isKeyPressed(Keys.A)){
-		    	playerBody.applyForceToCenter(-10,0);
-		    }
-		    if(Gdx.input.isKeyPressed(Keys.W)){
-		    	playerBody.applyForceToCenter(0,15);
-		    	//playerBody.setUserData();
-		    }
-		    // physics updates
-
+            
 		    Matrix4 cameraCopy = camera.combined.cpy();
 		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
 
 		    world.step(1/60f, 6, 2);
-			
+			int x = (int) playerBody.getPosition().x;
+			int y = (int) playerBody.getPosition().y;
+			System.out.println(x);
+			System.out.println(y);
+			if( !(Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.D) )){
+				
+			//Monster.draw(x, y);
+			}
+		    if(Gdx.input.isKeyPressed(Keys.D)){
+		    	if(playerBody.getLinearVelocity().x < 2){
+		    	playerBody.applyForceToCenter(10,0);
+		    	}
+		    }
+		    if(Gdx.input.isKeyPressed(Keys.A)){
+		    	if(playerBody.getLinearVelocity().x > -2){
+		    	playerBody.applyForceToCenter(-10,0);
+		    	}
+		    }
+		    if(Gdx.input.isKeyPressed(Keys.W)){
+		    	if(playerBody.getLinearVelocity().y ==0){
+		    	playerBody.applyForceToCenter(0,200);
+		    	}
+		    	//playerBody.setUserData();
+		    }
+		    if((!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.D) && playerBody.getLinearVelocity().y ==0)){
+		    	playerBody.setLinearVelocity(0, 0);
+		    }
+		    // physics updates
+
+		    
+
 		    
 			//draws the direction variable and sets it to this pos_status 
 		   //pos_status = monster.update();
@@ -134,7 +153,8 @@ public class Slumber implements Screen{
 		    Fixture fixture = playerBody.createFixture(fixtureDef);
 
 		    playerShape.dispose();
-			Sounds.music.play();
+           
+		    Sounds.music.play();
 	             // called when this screen is set as the screen with game.setScreen();
 	    }
 		@Override
