@@ -63,23 +63,20 @@ public class Slumber implements Screen{
 
 
 		public void render(float delta) {	
-			
+			pos_status = 0;
 
 			
 			
 			GL20 gl = Gdx.graphics.getGL20();
 			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		    camera.update();
-		    Matrix4 cameraCopy = camera.combined.cpy();
-		    //debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
 
 		    world.step(1/60f, 6, 2);
-			int x = (int) playerBody.getPosition().x;
-			int y = (int) playerBody.getPosition().y;
 		    if(Gdx.input.isKeyPressed(Keys.D)){
 		    	if(playerBody.getLinearVelocity().x < 2){
 		    	playerBody.applyForceToCenter(10,0);
 		    	}
+		    	pos_status = 3;
 		    }
 		    if(Gdx.input.isKeyPressed(Keys.A)){
 		    	if(playerBody.getLinearVelocity().x > -2){
@@ -91,34 +88,22 @@ public class Slumber implements Screen{
 		    	if(playerBody.getLinearVelocity().y ==0){
 		    	playerBody.applyForceToCenter(0,200);
 		    	}
+		    	pos_status = 2;
 		    	//playerBody.setUserData();
 		    }
+		    if(Gdx.input.isKeyPressed(Keys.S)){
+		    	pos_status = 4;
+		    }
+		    
 		    if((!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.D) && playerBody.getLinearVelocity().y ==0)){
 		    	playerBody.setLinearVelocity(0, 0);
+		    	
 		    }
-		    // physics updates
+
 		    
-		    
-			if(pos_status==0){
-			monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50);
-			System.out.println("Static");
-			}
-			if(pos_status==1){
-			monster.draw2();
-			System.out.println("left");
-			}
-			if(pos_status==2){
-			monster.draw3();
-			System.out.println("up");
-			}
-			if(pos_status==3){
-			monster.draw4();
-			System.out.println("right");
-			}
-			if(pos_status==4){
-			monster.draw5();
-			System.out.println("down");
-			}
+
+			Monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50, pos_status);
+			
 
 			
 		    

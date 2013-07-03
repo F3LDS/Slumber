@@ -48,9 +48,9 @@ public static void  create() {
 	//Creates Arrays from spriteSheetes
 	skeleton = spriteSheet.createSprites("Stand");
 	left = spriteSheet2.createSprites("Stand");
-	right = spriteSheet3.createSprites("Stand");
-	up = spriteSheet4.createSprites("Stand");
-	down = spriteSheet5.createSprites("Stand");
+	down = spriteSheet3.createSprites("Stand");
+	right = spriteSheet4.createSprites("Stand");
+	up = spriteSheet5.createSprites("Stand");
 	//Gives all static sizes and positions
 	for(int i=0; i<skeleton.size; i++){
 		skeleton.get(i).setSize(100.0f, 100.0f);
@@ -81,24 +81,10 @@ public Monster(OrthographicCamera c) {
 	
 }
 public void update() {
-	//direction indicates which key is being pressed
-	
-	//receives input and creates keypress status for animations
-	 //  if(Gdx.input.isKeyPressed(Keys.A)) {
-	//	      direction = 1;
-	//	      }
-	//	   if(Gdx.input.isKeyPressed(Keys.D)) {
-	//	      direction = 2;
-	//	      }
-	//	   if(Gdx.input.isKeyPressed(Keys.W)) {
-	//	      direction = 3;
-	//	      }
-	//	   if(Gdx.input.isKeyPressed(Keys.S)) {
-	//	      direction = 4;
-	//	      }
+
 }
 //different draw functions for different animations
-public static void draw(float x, float y) {
+public static void draw(float x, float y, int z) {
 //gets the time
 	charx = x;
 	chary = y;
@@ -115,125 +101,42 @@ public static void draw(float x, float y) {
 		skeleton.get(i).setSize(100.0f, 100.0f);
 		skeleton.get(i).setPosition(x, y);
 	}
-		//some open opengl stuff
+		for(int i=0; i<left.size; i++){
+		left.get(i).setSize(100.0f, 100.0f);
+		left.get(i).setPosition(x, y); // optional: center the sprite to screen
+	}
+		for(int i=0; i<up.size; i++){
+		up.get(i).setSize(100.0f, 100.0f);
+		up.get(i).setPosition(x, y); // optional: center the sprite to screen
+	}
+		for(int i=0; i<down.size; i++){
+		down.get(i).setSize(100.0f, 100.0f);
+		down.get(i).setPosition(x, y); // optional: center the sprite to screen
+	}
+		for(int i=0; i<right.size; i++){
+		right.get(i).setSize(100.0f, 100.0f);
+		right.get(i).setPosition(x, y); // optional: center the sprite to screen
+	}
 		
 	
 	//camera
 	//spriteBatch.setProjectionMatrix(camera.combined);
+	
 	spriteBatch.begin();//starts
-	skeleton.get(currentFrame).draw(spriteBatch);//draws it
+	if(z==0){
+		skeleton.get(currentFrame).draw(spriteBatch);}//draws it
+	if(z==2){
+		up.get(currentFrame).draw(spriteBatch);}
+	if(z==4){
+		down.get(currentFrame).draw(spriteBatch);}
+	if(z==3){
+		right.get(currentFrame).draw(spriteBatch);}
+	if(z==1){
+		left.get(currentFrame).draw(spriteBatch);}
 	spriteBatch.end();//closes/ends
 	
-
 	
 
-}
-public void draw2() {
-	
-	
-	float dt = Gdx.graphics.getDeltaTime();
-	animationElapsed += dt;
-	
-	
-	while(animationElapsed > frameLength){
-		animationElapsed -= frameLength;
-		currentFrame = (currentFrame == left.size - 1) ? 0 : ++currentFrame;
-	}
-
-		for(int i=0; i<left.size; i++){
-		left.get(i).setSize(100.0f, 100.0f);
-		left.get(i).setPosition(charx, chary); // optional: center the sprite to screen
-	}
-	
-	
-	spriteBatch.setProjectionMatrix(camera.combined);
-	spriteBatch.begin();
-	left.get(currentFrame).draw(spriteBatch);
-	spriteBatch.end();
-	
-
-	
-
-}
-
-public void draw3() {
-
-	float dt = Gdx.graphics.getDeltaTime();
-	animationElapsed += dt;
-	
-	
-	while(animationElapsed > frameLength){
-		animationElapsed -= frameLength;
-		currentFrame = (currentFrame == up.size - 1) ? 0 : ++currentFrame;
-	}
-
-		for(int i=0; i<up.size; i++){
-		up.get(i).setSize(100.0f, 100.0f);
-		up.get(i).setPosition(charx, chary); // optional: center the sprite to screen
-	}
-	
-	
-	spriteBatch.setProjectionMatrix(camera.combined);
-	spriteBatch.begin();
-	up.get(currentFrame).draw(spriteBatch);
-	spriteBatch.end();
-	
-
-	
-
-}
-
-public void draw4() {
-
-	float dt = Gdx.graphics.getDeltaTime();
-	animationElapsed += dt;
-	
-	
-	while(animationElapsed > frameLength){
-		animationElapsed -= frameLength;
-		currentFrame = (currentFrame == down.size - 1) ? 0 : ++currentFrame;
-	}
-
-		for(int i=0; i<down.size; i++){
-		down.get(i).setSize(100.0f, 100.0f);
-		down.get(i).setPosition(charx, chary); // optional: center the sprite to screen
-	}
-	
-	
-	spriteBatch.setProjectionMatrix(camera.combined);
-	spriteBatch.begin();
-	down.get(currentFrame).draw(spriteBatch);
-	spriteBatch.end();
-	
-
-	
-
-}
-
-public void draw5() {
-
-	float dt = Gdx.graphics.getDeltaTime();
-	animationElapsed += dt;
-	
-	
-	while(animationElapsed > frameLength){
-		animationElapsed -= frameLength;
-		currentFrame = (currentFrame == right.size - 1) ? 0 : ++currentFrame;
-	}
-
-		for(int i=0; i<right.size; i++){
-		right.get(i).setSize(100.0f, 100.0f);
-		right.get(i).setPosition(charx, chary); // optional: center the sprite to screen
-	}
-	
-	
-	spriteBatch.setProjectionMatrix(camera.combined);
-	spriteBatch.begin();
-	right.get(currentFrame).draw(spriteBatch);
-	spriteBatch.end();
-	
-
-	
 
 }
 
