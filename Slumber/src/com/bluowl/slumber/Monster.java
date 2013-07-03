@@ -36,7 +36,7 @@ public class Monster {
 
 	
 public static void  create() {
-	System.out.print("monster.create\n");
+	
 	spriteBatch = new SpriteBatch();
 	//imports spriteSheets
 	spriteSheet = new TextureAtlas("assets/data/spritesheet.txt");//standing anim
@@ -80,30 +80,28 @@ public Monster(OrthographicCamera c) {
 	camera = c;
 	
 }
-public int update() {
-	System.out.print("monster.update");
-	direction = 0;//direction indicates which key is being pressed
-	
+public void update() {
+	//direction indicates which key is being pressed
 	
 	//receives input and creates keypress status for animations
-	   if(Gdx.input.isKeyPressed(Keys.A)) {
-		      charx -= Gdx.graphics.getDeltaTime() * 150;
-		      direction =1;}
-		   if(Gdx.input.isKeyPressed(Keys.D)) {
-		      charx += Gdx.graphics.getDeltaTime() * 150;
-		      direction = 2;}
-		   if(Gdx.input.isKeyPressed(Keys.W)) {
-		      chary += Gdx.graphics.getDeltaTime() * 150;
-		      direction = 3;}
-		   if(Gdx.input.isKeyPressed(Keys.S)) {
-		      chary -= Gdx.graphics.getDeltaTime() * 150;
-		      direction = 4;}
-	return direction;
+	 //  if(Gdx.input.isKeyPressed(Keys.A)) {
+	//	      direction = 1;
+	//	      }
+	//	   if(Gdx.input.isKeyPressed(Keys.D)) {
+	//	      direction = 2;
+	//	      }
+	//	   if(Gdx.input.isKeyPressed(Keys.W)) {
+	//	      direction = 3;
+	//	      }
+	//	   if(Gdx.input.isKeyPressed(Keys.S)) {
+	//	      direction = 4;
+	//	      }
 }
 //different draw functions for different animations
-public static void draw(int x, int y) {
-	System.out.print("monster.draw\n");
+public static void draw(float x, float y) {
 //gets the time
+	charx = x;
+	chary = y;
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
 	
@@ -118,6 +116,7 @@ public static void draw(int x, int y) {
 		skeleton.get(i).setPosition(x, y);
 	}
 		//some open opengl stuff
+		
 	
 	//camera
 	//spriteBatch.setProjectionMatrix(camera.combined);
@@ -131,8 +130,7 @@ public static void draw(int x, int y) {
 }
 public void draw2() {
 	
-	System.out.print("monster.draw2");
-
+	
 	float dt = Gdx.graphics.getDeltaTime();
 	animationElapsed += dt;
 	

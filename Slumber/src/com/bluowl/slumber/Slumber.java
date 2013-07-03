@@ -63,22 +63,19 @@ public class Slumber implements Screen{
 
 
 		public void render(float delta) {	
+			
+
+			
+			
 			GL20 gl = Gdx.graphics.getGL20();
 			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		    camera.update();
-            
 		    Matrix4 cameraCopy = camera.combined.cpy();
-		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
+		    //debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
 
 		    world.step(1/60f, 6, 2);
 			int x = (int) playerBody.getPosition().x;
 			int y = (int) playerBody.getPosition().y;
-			System.out.println(x);
-			System.out.println(y);
-			if( !(Gdx.input.isKeyPressed(Keys.A) && !Gdx.input.isKeyPressed(Keys.W) && !Gdx.input.isKeyPressed(Keys.D) )){
-				
-			//Monster.draw(x, y);
-			}
 		    if(Gdx.input.isKeyPressed(Keys.D)){
 		    	if(playerBody.getLinearVelocity().x < 2){
 		    	playerBody.applyForceToCenter(10,0);
@@ -88,6 +85,7 @@ public class Slumber implements Screen{
 		    	if(playerBody.getLinearVelocity().x > -2){
 		    	playerBody.applyForceToCenter(-10,0);
 		    	}
+		    	pos_status = 1;
 		    }
 		    if(Gdx.input.isKeyPressed(Keys.W)){
 		    	if(playerBody.getLinearVelocity().y ==0){
@@ -99,9 +97,30 @@ public class Slumber implements Screen{
 		    	playerBody.setLinearVelocity(0, 0);
 		    }
 		    // physics updates
-
 		    
+		    
+			if(pos_status==0){
+			monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50);
+			System.out.println("Static");
+			}
+			if(pos_status==1){
+			monster.draw2();
+			System.out.println("left");
+			}
+			if(pos_status==2){
+			monster.draw3();
+			System.out.println("up");
+			}
+			if(pos_status==3){
+			monster.draw4();
+			System.out.println("right");
+			}
+			if(pos_status==4){
+			monster.draw5();
+			System.out.println("down");
+			}
 
+			
 		    
 			//draws the direction variable and sets it to this pos_status 
 		   //pos_status = monster.update();
@@ -121,7 +140,7 @@ public class Slumber implements Screen{
 			camera = new OrthographicCamera();
 			camera.setToOrtho(false);
 		    world = new World(new Vector2(0, -10), true);
-		    debugRenderer = new Box2DDebugRenderer();
+		    //debugRenderer = new Box2DDebugRenderer();
 		    groundDef = new BodyDef();
 		    groundDef.position.set(new Vector2((Gdx.graphics.getWidth() / 2) * WORLD_TO_BOX, 16f * WORLD_TO_BOX));
 		    groundBody = world.createBody(groundDef);
@@ -138,9 +157,11 @@ public class Slumber implements Screen{
 		    
 		    playerBody = world.createBody(playerDef);
 		   	playerBody.setFixedRotation(true);
+		   	
+		   	
 		    
 		   	PolygonShape playerShape = new PolygonShape();
-		    playerShape.setAsBox(50 * WORLD_TO_BOX, 50 * WORLD_TO_BOX);
+		    playerShape.setAsBox(50 * WORLD_TO_BOX ,50 * WORLD_TO_BOX);
 		    
 
 		    FixtureDef fixtureDef = new FixtureDef();
