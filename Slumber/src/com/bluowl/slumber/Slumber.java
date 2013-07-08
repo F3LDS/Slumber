@@ -36,6 +36,7 @@ public class Slumber implements Screen{
 		private Body groundBody;
 		private BodyDef playerDef;
 		private Body playerBody;
+		private light onelight;
 		
 		
 
@@ -48,6 +49,8 @@ public class Slumber implements Screen{
 			camera = new OrthographicCamera(w, h);
 			
 			monster.create();
+
+			
 
 		}
 
@@ -104,7 +107,9 @@ public class Slumber implements Screen{
 
 			Monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50, pos_status);
 			
-
+		    Matrix4 cameraCopy = camera.combined.cpy();
+		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
+		    onelight.render();
 			
 		    
 			//draws the direction variable and sets it to this pos_status 
@@ -125,7 +130,7 @@ public class Slumber implements Screen{
 			camera = new OrthographicCamera();
 			camera.setToOrtho(false);
 		    world = new World(new Vector2(0, -10), true);
-		    //debugRenderer = new Box2DDebugRenderer();
+		    debugRenderer = new Box2DDebugRenderer();
 		    groundDef = new BodyDef();
 		    groundDef.position.set(new Vector2((Gdx.graphics.getWidth() / 2) * WORLD_TO_BOX, 16f * WORLD_TO_BOX));
 		    groundBody = world.createBody(groundDef);
@@ -158,6 +163,11 @@ public class Slumber implements Screen{
 
 		    Fixture fixture = playerBody.createFixture(fixtureDef);
 
+
+		    
+			light onelight = new light();
+			onelight.create(world, camera);
+		    
 		    playerShape.dispose();
            
 		    Sounds.music.play();
