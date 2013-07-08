@@ -37,16 +37,25 @@ public class Slumber implements Screen{
 		private BodyDef playerDef;
 		private Body playerBody;
 		private light onelight;
+		private float h;
+		private float w;
+		private Matrix4 cameraCopy;
 		
 		
 
 		GameClass game;
 		
 		public void create() {	
-			float w = Gdx.graphics.getWidth();
-			float h = Gdx.graphics.getHeight();
-
+			w = Gdx.graphics.getWidth();
+			h = Gdx.graphics.getHeight();
+			debugRenderer = new Box2DDebugRenderer();
 			camera = new OrthographicCamera(w, h);
+			cameraCopy = camera.combined.cpy();
+			cameraCopy.scl(BOX_TO_WORLD);
+			world = new World(new Vector2(0, -10), true);
+			onelight = new light();
+			
+			
 			
 			monster.create();
 
@@ -62,6 +71,8 @@ public class Slumber implements Screen{
 
 		public Slumber(GameClass game) {
 			this.game = game;
+			
+			
 		}
 
 
@@ -74,22 +85,26 @@ public class Slumber implements Screen{
 			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		    camera.update();
 
+		    Vector2 pushMe = new Vector2(10,0);
+		    Vector2 pushMe1 = new Vector2(-10,0);
+		    Vector2 pushMe2 = new Vector2(0,200);
+		    
 		    world.step(1/60f, 6, 2);
 		    if(Gdx.input.isKeyPressed(Keys.D)){
 		    	if(playerBody.getLinearVelocity().x < 2){
-		    	playerBody.applyForceToCenter(10,0);
+		    	playerBody.applyForceToCenter(pushMe, true);
 		    	}
 		    	pos_status = 3;
 		    }
 		    if(Gdx.input.isKeyPressed(Keys.A)){
 		    	if(playerBody.getLinearVelocity().x > -2){
-		    	playerBody.applyForceToCenter(-10,0);
+		    	playerBody.applyForceToCenter(pushMe1, true);
 		    	}
 		    	pos_status = 1;
 		    }
 		    if(Gdx.input.isKeyPressed(Keys.W)){
 		    	if(playerBody.getLinearVelocity().y ==0){
-		    	playerBody.applyForceToCenter(0,200);
+		    	playerBody.applyForceToCenter(pushMe2, true);
 		    	}
 		    	pos_status = 2;
 		    	//playerBody.setUserData();
@@ -103,14 +118,16 @@ public class Slumber implements Screen{
 		    	
 		    }
 
+
 		    
 
 			Monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50, pos_status);
 			
-		    Matrix4 cameraCopy = camera.combined.cpy();
+			onelight.render();
+		    
 		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
-		    onelight.render();
-			
+		    
+			world.step(1/60f, 6, 2);
 		    
 			//draws the direction variable and sets it to this pos_status 
 		   //pos_status = monster.update();
@@ -127,10 +144,9 @@ public class Slumber implements Screen{
 		@Override
 	    public void show() {
 			Gdx.input.setCursorCatched(true);
-			camera = new OrthographicCamera();
 			camera.setToOrtho(false);
-		    world = new World(new Vector2(0, -10), true);
-		    debugRenderer = new Box2DDebugRenderer();
+		    
+		    
 		    groundDef = new BodyDef();
 		    groundDef.position.set(new Vector2((Gdx.graphics.getWidth() / 2) * WORLD_TO_BOX, 16f * WORLD_TO_BOX));
 		    groundBody = world.createBody(groundDef);
@@ -163,10 +179,8 @@ public class Slumber implements Screen{
 
 		    Fixture fixture = playerBody.createFixture(fixtureDef);
 
-
 		    
-			light onelight = new light();
-			onelight.create(world, camera);
+			onelight.create(world, cameraCopy, w, h);
 		    
 		    playerShape.dispose();
            
