@@ -4,196 +4,97 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 
 
 public class Slumber implements Screen{
-
+		GameClass game;
+		private Platform ground;
 		private OrthographicCamera camera;
-		//Texture texture = Gdx.files.internal("assets/data/spritesheet.png");
-		Monster monster;
-		
-		int pos_status = 0;//because we want him to be standing initially
+		private Matrix4 cameraCopy;
 		private World world;
 		private Box2DDebugRenderer debugRenderer;
 		private static final float WORLD_TO_BOX = 0.01f;
 		private static final float BOX_TO_WORLD = 100f; 
-		private BodyDef groundDef;
-		private Body groundBody;
-		private BodyDef playerDef;
-		private Body playerBody;
-		private light onelight;
-		private float h;
-		private float w;
-		private Matrix4 cameraCopy;
-		
-		
+		private Monster dude;
+		private LightSource light;
 
-		GameClass game;
-		
-		public void create() {	
-			w = Gdx.graphics.getWidth();
-			h = Gdx.graphics.getHeight();
-			debugRenderer = new Box2DDebugRenderer();
-			camera = new OrthographicCamera(w, h);
-			cameraCopy = camera.combined.cpy();
-			cameraCopy.scl(BOX_TO_WORLD);
-			world = new World(new Vector2(0, -10), true);
-			onelight = new light();
-			
-			
-			
-			monster.create();
-
-			
-
-		}
-
-		@Override
-		public void dispose() {
-			
-		}
-		
-
+	
 		public Slumber(GameClass game) {
+			//pass on our game class to this screen
 			this.game = game;
-			
-			
 		}
+		
+		
+/*****************************************************************************************
+					INITIALIZATION - called on screen switch in
+*****************************************************************************************/
+		@Override
+	    public void show() {
+			float w = Gdx.graphics.getWidth();
+			float h = Gdx.graphics.getHeight();
+			
+			camera = new OrthographicCamera(w, h); //The main camera
+			Gdx.input.setCursorCatched(true); //Catches the cursor while gameplay is active
+			camera.setToOrtho(false);
+			cameraCopy = camera.combined.cpy(); //create a copy of the camera as a Matrix4 for use with box2d
+			
+		    world = new World(new Vector2(0, -10), true);
+		    debugRenderer = new Box2DDebugRenderer(); //Allows us to see the physics objects outlined
+		    
+		    //use our Platform class to create the ground
+		    ground = new Platform();
+		    ground.create(world, 300, 36, 100, 100,true); //make a platform with (World, width, height, x, y, (is the ground));
+		    
+		    //create a new instance of our player
+		    dude = new Monster(camera, world);
+		    dude.create();
+		    
+		    //create a new instance of our lighting class
+		    light = new LightSource();
+		    light.create(world, cameraCopy.scl(BOX_TO_WORLD)); //we send out Matrix4 camera scaled properly for box2d
+		    
+		    Sounds.music.play(); //PREPARE TO SHIT YOUR PANTS
+	    }
 
 
 		public void render(float delta) {	
-			pos_status = 0;
-
-			
-			
-			GL20 gl = Gdx.graphics.getGL20();
+			GL20 gl = Gdx.graphics.getGL20(); //Clear the screen
 			gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		    camera.update();
 
-		    Vector2 pushMe = new Vector2(10,0);
-		    Vector2 pushMe1 = new Vector2(-10,0);
-		    Vector2 pushMe2 = new Vector2(0,200);
-		    
-		    world.step(1/60f, 6, 2);
-		    if(Gdx.input.isKeyPressed(Keys.D)){
-		    	if(playerBody.getLinearVelocity().x < 2){
-		    	playerBody.applyForceToCenter(pushMe, true);
-		    	}
-		    	pos_status = 3;
-		    }
-		    if(Gdx.input.isKeyPressed(Keys.A)){
-		    	if(playerBody.getLinearVelocity().x > -2){
-		    	playerBody.applyForceToCenter(pushMe1, true);
-		    	}
-		    	pos_status = 1;
-		    }
-		    if(Gdx.input.isKeyPressed(Keys.W)){
-		    	if(playerBody.getLinearVelocity().y ==0){
-		    	playerBody.applyForceToCenter(pushMe2, true);
-		    	}
-		    	pos_status = 2;
-		    	//playerBody.setUserData();
-		    }
-		    if(Gdx.input.isKeyPressed(Keys.S)){
-		    	pos_status = 4;
-		    }
-		    
-		    if((!Gdx.input.isKeyPressed(Keys.A)) && (!Gdx.input.isKeyPressed(Keys.D) && playerBody.getLinearVelocity().y ==0)){
-		    	playerBody.setLinearVelocity(0, 0);
-		    	
-		    }
+		    world.step(1/60f, 6, 2); //sets our FPS and general speed of the game
 
-
+			dude.draw(); //draw our player
+		    light.render(); //draw this light
 		    
-
-			Monster.draw((playerBody.getPosition().x * BOX_TO_WORLD) - 50, (playerBody.getPosition().y * BOX_TO_WORLD) - 50, pos_status);
-			
-			onelight.render();
+		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD)); //run the debug renderer so we can see outlines of our bodies
 		    
-		    debugRenderer.render(world, cameraCopy.scl(BOX_TO_WORLD));
-		    
-			world.step(1/60f, 6, 2);
-		    
-			//draws the direction variable and sets it to this pos_status 
-		   //pos_status = monster.update();
-		   if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
+		    //This allows us to ESCAPE to get back to the menu screen
+		    if(Gdx.input.isKeyPressed(Keys.ESCAPE)){
 			   game.setScreen(game.mainmenu);
-		   }
-
-			  
-		//after looping through again it'll change if a key is pressed
-		   //you'll be able to tell by the system print out in the console
-
+		    }
 		}
 	    
+/*****************************************************************************************
+					END - called on screen switch out
+*****************************************************************************************/
 		@Override
-	    public void show() {
-			Gdx.input.setCursorCatched(true);
-			camera.setToOrtho(false);
-		    
-		    
-		    groundDef = new BodyDef();
-		    groundDef.position.set(new Vector2((Gdx.graphics.getWidth() / 2) * WORLD_TO_BOX, 16f * WORLD_TO_BOX));
-		    groundBody = world.createBody(groundDef);
-		    PolygonShape groundShape = new PolygonShape();
-		    groundShape.setAsBox((Gdx.graphics.getWidth() / 2) * WORLD_TO_BOX, 16f * WORLD_TO_BOX);
-		    groundBody.createFixture(groundShape, 0f);
-		    groundShape.dispose();
-
-		    // the player box
-
-		    playerDef = new BodyDef();
-		    playerDef.type = BodyType.DynamicBody;
-		    playerDef.position.set(new Vector2(100 * WORLD_TO_BOX, 400 * WORLD_TO_BOX));
-		    
-		    playerBody = world.createBody(playerDef);
-		   	playerBody.setFixedRotation(true);
-		   	
-		   	
-		    
-		   	PolygonShape playerShape = new PolygonShape();
-		    playerShape.setAsBox(50 * WORLD_TO_BOX ,50 * WORLD_TO_BOX);
-		    
-
-		    FixtureDef fixtureDef = new FixtureDef();
-		    fixtureDef.shape = playerShape;
-		    fixtureDef.density = 0.5f; 
-		    fixtureDef.friction = 0.6f;
-		    fixtureDef.restitution = 0.0f;
-		    
-
-		    Fixture fixture = playerBody.createFixture(fixtureDef);
-
-		    
-			onelight.create(world, cameraCopy, w, h);
-		    
-		    playerShape.dispose();
-           
-		    Sounds.music.play();
-	             // called when this screen is set as the screen with game.setScreen();
-	    }
-		@Override
+		// called when current screen changes from this to a different screen
 	    public void hide() {
 			Gdx.input.setCursorCatched(false);
 			Sounds.music.pause();
 
-	             // called when current screen changes from this to a different screen
 	    }
+		
+		@Override
+		public void dispose() {
+			
+		}
 		@Override
 		public void resize(int width, int height) {
 		}

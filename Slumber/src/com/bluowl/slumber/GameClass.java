@@ -18,7 +18,6 @@ public class GameClass extends Game {
             mainmenu = new MainMenu(this);
             slumber = new Slumber(this);
             setScreen(mainmenu);     
-            slumber.create();
             
             Sounds.load();
     }
