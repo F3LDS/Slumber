@@ -21,12 +21,14 @@ local function conc(tbl1,tbl2,...)
 end
 
 function love.load()
+	--establish our global vectors to keep track of our flame and player
     playerpos = vector(0,0)
     flamepos = vector(0,0)
 
+    --Initialize our particle image
     part1 = love.graphics.newImage("part1.png");
 
-
+    --initialize the flame particle system
     p = love.graphics.newParticleSystem(part1, 1000)
     p:setEmissionRate(130)
     p:setSpeed(100, 60)
@@ -36,15 +38,12 @@ function love.load()
     p:setLifetime(999)
     p:setParticleLife(.2, .7)
     p:setDirection(4.7)
-    --p:setSpread()
-    --p:setTangentialAcceleration(1000)
-    --p:setRadialAcceleration(-1369, 0)
-    --p:stop()
 
 
 
 	love.graphics.setBackgroundColor(0,0,0)
 	objects = map(Polygon, conc(
+			SplitConvex{vector(400,100), vector(130,70), vector(150,120), vector(120,160), vector(130,110) },
 			SplitConvex{vector(100,100), vector(130,70), vector(150,120), vector(120,160), vector(130,110) },
 			SplitConvex{vector(607,53), vector(729,19), vector(790,135), vector(709,220), vector(707,108), vector(583,97), vector(624,75)},
 			{ConvexHull{vector(250,250), vector(260,350), vector(320,410), vector(400,240), vector(300,190) },
