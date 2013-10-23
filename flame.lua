@@ -13,18 +13,20 @@ function Flame:predraw(objects)
     for _,o in ipairs(objects) do
         function go()
             love.graphics.polygon('fill', self.light:castShadow(o))
+            print("I HATH CREATED A SHADOW AT %d", self.light:castShadow(o))
         end
         if pcall(go) then
             --print("no errors")
         else
             --print("errors, errors everywhere")
-    end
+        end
     end
 end
 
+
 function Flame:draw()
 	love.graphics.setColor(0,0,0)
-	--love.graphics.circle('line', self.light.pos.x, self.light.pos.y, 10)
+	-- love.graphics.circle('line', self.light.pos.x, self.light.pos.y, 10)
 	-- black out the rest
 	if not debug.noDarkening then
 		self.light:drawMask()
@@ -75,5 +77,5 @@ function Flame:update(dt)
 	-- flicker light
 	self.last = math.min(1, math.max(0, 2*math.random()-1 + self.last * self.last))
 	self.light.intensity = .98 + .04 * self.last
-	self.light.range = self.light.intensity / 1.12
+	self.light.range = self.light.intensity / 1.12 +3
 end

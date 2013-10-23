@@ -8,7 +8,6 @@ require 'player'
 debug.showNormals = false
 debug.showWireframe = false
 
-
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
 -- commencing holy trinity
 --==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==--==
@@ -44,6 +43,11 @@ function love.load()
 	love.graphics.setBackgroundColor(0,0,0)
 	objects = map(Polygon, conc(
 			SplitConvex{vector(400,100), vector(130,70), vector(150,120), vector(120,160), vector(130,110) },
+
+			SplitConvex{vector(62,330), vector(127,330), vector(127,360), vector(137,390), vector(123,380), 
+								vector(118,414), vector(109,414), vector(97,392), vector(82,391),
+								vector(67,413), vector(60,413), vector(60,383), vector(46,388)},
+
 			SplitConvex{vector(100,100), vector(130,70), vector(150,120), vector(120,160), vector(130,110) },
 			SplitConvex{vector(607,53), vector(729,19), vector(790,135), vector(709,220), vector(707,108), vector(583,97), vector(624,75)},
 			{ConvexHull{vector(250,250), vector(260,350), vector(320,410), vector(400,240), vector(300,190) },
@@ -78,8 +82,9 @@ function love.draw()
 		love.graphics.line(unp(unpack(points)))
 		points[#points] = nil
 	end
-	love.graphics.setColor(100,100,100)
+	love.graphics.setColor(255,255,255)
 	love.graphics.print(string.format("FPS: %d", love.timer.getFPS()), 10,10)
+	love.graphics.print(string.format("Mouse X: %d Y: %d", love.mouse.getX(), love.mouse.getY()), 10,30)
 
     love.graphics.draw(p, 0, 0)
 
