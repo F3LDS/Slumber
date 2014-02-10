@@ -1,3 +1,5 @@
+package src;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.AppGameContainer;
