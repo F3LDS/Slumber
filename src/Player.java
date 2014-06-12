@@ -18,7 +18,6 @@ public class Player extends Entity
 		super(x, y, im);
 	}
 
-
 	public void update(float delta)
 	{
 		// s(t) = 1/2at^2+v_0t + s_0
@@ -36,8 +35,12 @@ public class Player extends Entity
 		{
 			// if we're not falling time does not need to be recorded
 			time = 0;
+			ySpeed = 0;
 		}
 
+		if (!this.canMove(xSpeed, ySpeed))
+			falling = false;
+		
 		this.move(xSpeed, ySpeed);
 
 	}
@@ -99,5 +102,9 @@ public class Player extends Entity
 		this.falling = falling;
 	}
 
+	public boolean isFaling()
+	{
+		return falling;
+	}
 
 }

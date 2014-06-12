@@ -24,15 +24,14 @@ public class Main extends BasicGame
 	// please let me know, I've hit a dead end for tonight
 	
 	//2 Months later: Yea i got nothing -
-	
-	//TEST TEST TEST TEST TEST TEST STSE
 
 	private Player p;
 	private Image playerImage;
 	private static AppGameContainer appgc;
 	private Wall w;
 	private boolean dev = true;
-
+	private int counter = 0;
+	
 	// A complete list of all entities in the game area, used for collisons, and
 	// easy cycling
 	public static ArrayList<Entity> objs = new ArrayList<Entity>();
@@ -75,6 +74,8 @@ public class Main extends BasicGame
 		for (Entity elem : objs)
 			elem.update(delta);
 
+		System.out.println("foo: " + counter);
+		counter++;
 	}
 
 	// Method run many times a second that draws the game to the screen
