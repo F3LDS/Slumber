@@ -9,7 +9,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
 public class Main extends BasicGame
 {
@@ -30,7 +29,6 @@ public class Main extends BasicGame
 	private static AppGameContainer appgc;
 	private Wall w;
 	private boolean dev = true;
-	private int counter = 0;
 	
 	// A complete list of all entities in the game area, used for collisons, and
 	// easy cycling
@@ -70,12 +68,9 @@ public class Main extends BasicGame
 	public void update(GameContainer gc, int delta) throws SlickException
 	{
 		pollInput(gc.getInput());
-
+		
 		for (Entity elem : objs)
 			elem.update(delta);
-
-		System.out.println("foo: " + counter);
-		counter++;
 	}
 
 	// Method run many times a second that draws the game to the screen
@@ -112,18 +107,10 @@ public class Main extends BasicGame
 			p.setXSpeed(p.getXSpeedI());
 		} else
 			p.setXSpeed(0);
-
-		if (i.isKeyPressed(Input.KEY_I)) // Prints First two objects position
-											// info to console, take out after
-											// finish acceleration/collision
+		if(i.isKeyPressed(Input.KEY_SPACE))
 		{
-
-			System.out.println(objs.get(0).getPos().getY()
-					+ objs.get(0).getPos().getHeight());
-			System.out.println(objs.get(1).getPos().getY());
-
+			p.jump();
 		}
-
 		// Closes game with hit of escape
 		if (i.isKeyPressed(Input.KEY_ESCAPE))
 			appgc.exit();

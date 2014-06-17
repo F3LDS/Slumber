@@ -11,7 +11,9 @@ public class Player extends Entity
 	protected float xSpeed, ySpeed;
 
 	protected boolean falling = true;
-	private float time = 0;
+	protected float time = 0;
+	protected float jumpStr = 30;
+	protected float mass = 5;
 
 	public Player(float x, float y, Image im)
 	{
@@ -20,29 +22,12 @@ public class Player extends Entity
 
 	public void update(float delta)
 	{
-		// s(t) = 1/2at^2+v_0t + s_0
-		// v(t) = s'(t) = at + v_0
-		// a(t) = v'(t) = s''(t) = a = 9.8
-
-		// ySpeed = 9.8t + ySpeedI
-
-		// time is recorded to apply an acceleration to the player
 		if (falling)
 		{
-			time += delta;
-			ySpeed = (float) (9.8 * (time / 1000));
-		} else
-		{
-			// if we're not falling time does not need to be recorded
-			time = 0;
-			ySpeed = 0;
+			ySpeed += (float) (9.8 * (delta / 1000));
 		}
 
-		if (!this.canMove(xSpeed, ySpeed))
-			falling = false;
-		
 		this.move(xSpeed, ySpeed);
-
 	}
 
 	public void render(Graphics g)
@@ -50,8 +35,50 @@ public class Player extends Entity
 		g.drawImage(entityImage, pos.getX(), pos.getY());
 	}
 
-	// Accessors and mutators for instance variables
+	public boolean canMove(float x, float y)
+	{
+		Entity o;
 
+		for (int i = 0; i < Main.objs.size(); i++)
+		{
+			o = Main.objs.get(i);
+
+			// Make sure we're not checking that the objects
+			// is colliding with itself
+			if (!o.equals(this))
+			{
+				if (checkCollisionX(x, o))
+				{
+					this.xSpeed = 0;
+					if (checkCollisionY(y, o))
+					{
+						if (this.ySpeed > 0)
+						{
+							falling = false;
+						}
+						this.ySpeed = 0;
+						return false;
+					}
+				}
+			}
+		}
+		return true;
+
+	}
+
+	// Method tells sentity to jump
+	// Sets upward veloctiy according to strength of sentity's jump
+	public void jump()
+	{
+		if (!falling)
+		{
+			falling = true;
+			ySpeed = (jumpStr / mass) * -1;
+		}
+
+	}
+
+	// Accessors and mutators for instance variables
 	public float getXSpeedI()
 	{
 		return xSpeedI;

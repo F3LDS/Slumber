@@ -12,6 +12,7 @@ public abstract class Entity
 	// Rectangles work much better for collisions
 	protected Rectangle pos;
 	protected Image entityImage;
+	protected boolean canFall = true;
 
 	// Cut parameters of Player constructor to what was neccessary
 	public Entity(float x, float y, Image entityImage)
@@ -35,12 +36,44 @@ public abstract class Entity
 		this.entityImage = null;
 	}
 
-	public void move(float x, float y)
+	// So In order for us to have multiple collisions we need to move
+	// our entities one pixel at a time. To do this we move
+	// our entities one pixel at a time multiple times per tick
+	//TODO: This may cause an issue with enough entitys on screen
+	//		the game appears to be "turn-based"
+	public void move(float xSpeed, float ySpeed)
 	{
-		if (canMove(x, y))
+		for (int i = 0; i < Math.abs(xSpeed); i++)
 		{
-			this.pos.setX(this.pos.getX() + x);
-			this.pos.setY(this.pos.getY() + y);
+
+			if (xSpeed > 0)
+			{
+				if (this.canMove(1, 0))
+					this.pos.setX(this.pos.getX() + 1);
+				;
+			} else if (xSpeed < 0)
+			{
+				if (this.canMove(-1, 0))
+					this.pos.setX(this.pos.getX() - 1);
+				;
+			} else
+				break;
+		}
+
+		for (int i = 0; i < Math.abs(ySpeed); i++)
+		{
+			if (ySpeed > 0)
+			{
+				if (this.canMove(0, 1))
+					this.pos.setY(this.pos.getY() + 1);
+				;
+			} else if (ySpeed < 0)
+			{
+				if (this.canMove(0, -1))
+					this.pos.setY(this.pos.getY() - 1);
+				;
+			} else
+				break;
 		}
 	}
 
@@ -78,7 +111,6 @@ public abstract class Entity
 
 					if (checkCollisionY(y, o))
 					{
-
 						return false;
 					}
 				}
