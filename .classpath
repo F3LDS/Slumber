@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+<<<<<<< HEAD
 	<classpathentry kind="src" path=""/>
+=======
+	<classpathentry kind="src" path="src"/>
+>>>>>>> 08c0398a050b53291b9db7279654618bfccd1447
 	<classpathentry exported="true" kind="lib" path="lib/jinput.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jogg-0.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jorbis-0.0.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/lwjgl.jar">
 		<attributes>
+<<<<<<< HEAD
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Slumber/lib/native/macosx"/>
+=======
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Matt Pickle/Java/Slumber/lib/native/windows"/>
+>>>>>>> 08c0398a050b53291b9db7279654618bfccd1447
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/natives-mac.jar"/>
