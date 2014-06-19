@@ -4,11 +4,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity
 {
-
-	// Added visibilty modifiers
-
-	// Removed velocity variable from Entity
-
 	// Rectangles work much better for collisions
 	protected Rectangle pos;
 	protected Image entityImage;
@@ -40,7 +35,7 @@ public abstract class Entity
 	// our entities one pixel at a time. To do this we move
 	// our entities one pixel at a time multiple times per tick
 	//TODO: This may cause an issue with enough entitys on screen
-	//		the game appears to be "turn-based"
+	//		the game appears to be "turn based"
 	public void move(float xSpeed, float ySpeed)
 	{
 		for (int i = 0; i < Math.abs(xSpeed); i++)
@@ -76,12 +71,6 @@ public abstract class Entity
 				break;
 		}
 	}
-
-	// For collision I attempted to write a sweep and prune
-	// method (http://en.wikipedia.org/wiki/Sweep_and_prune),
-	// But it doesn't seem like it will be a huge improvement over
-	// basic collision detection...I'll try both and see which
-	// one is faster
 
 	// Basically what we do is we see if the item is going to
 	// collide on the x axis, if it isnt we move on, if it is
